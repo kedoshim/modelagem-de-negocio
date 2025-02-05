@@ -1,0 +1,5 @@
+prefect
+yfinance
+PyDrive
+nest_asyncio
+matplotlib
