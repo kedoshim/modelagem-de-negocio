@@ -29,7 +29,7 @@ def authenticate_google_drive():
     Autentica o acesso ao Google Drive usando uma conta de serviço.
     Retorna o serviço do Google Drive para operações de API.
     """
-    credentials_block = Variable.get("drive-credentials-block")
+    credentials_block = Variable.get("drive-credentials")
     if not credentials_block:
         raise ValueError("Bloco de credenciais do Google Drive não configurado.")
 
@@ -166,7 +166,7 @@ def stock_workflow():
 if __name__ == "__main__":
     flow.from_source(
         source="https://github.com/kedoshim/modelagem-de-negocio.git",
-        entrypoint="final.py:stock_workflow()",
+        entrypoint="final.py:stock_workflow",
     ).deploy(
         name="tvc2-worflow",
         cron="0 0 * * *",
