@@ -12,15 +12,15 @@ from prefect.artifacts import (
     create_image_artifact,
     create_table_artifact,
 )
-from prefect.blocks.system import JSON
+from prefect.variables import Variable
 
 # Escopo para acessar o Google Drive
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 
 # Carrega lista de tickers de um bloco Prefect
-TICKER_BLOCK = JSON.load("tickers")
+TICKER_VARIABLE = Variable.get("tickers")
 TICKERS = (
-    TICKER_BLOCK.value if TICKER_BLOCK else ["PETR4.SA", "VALE3.SA"]
+    TICKER_VARIABLE if TICKER_VARIABLE else ["PETR4.SA", "VALE3.SA"]
 )  # Default caso não haja bloco configurado
 
 
@@ -29,7 +29,7 @@ def authenticate_google_drive():
     Autentica o acesso ao Google Drive usando uma conta de serviço.
     Retorna o serviço do Google Drive para operações de API.
     """
-    credentials_block = JSON.load("drive-credentials-block")
+    credentials_block = Variable.get("drive-credentials-block")
     if not credentials_block:
         raise ValueError("Bloco de credenciais do Google Drive não configurado.")
 
@@ -164,16 +164,22 @@ def stock_workflow():
 
 
 if __name__ == "__main__":
-    # stock_workflow.deploy(
-    #     name="tvc2-workflow",
-    #     cron="0 0 * * *",
-    #     work_pool_name="TVC2",
-    #     image="sorokine/docker-colab-local",
-    # )
     flow.from_source(
         source="https://github.com/kedoshim/modelagem-de-negocio.git",
-        entrypoint="a2.py:stock_wrokflow",
+        entrypoint="final.py:stock_workflow()",
     ).deploy(
-        name="test-managed-flow",
-        work_pool_name="my-managed-pool",
+        name="tvc2-worflow",
+        cron="0 0 * * *",
+        work_pool_name="TVC2",
+        job_variables={
+            "pip_packages": [
+                "pandas",
+                "prefect-aws",
+                "prefect",
+                "yfinance",
+                "PyDrive",
+                "nest_asyncio",
+                "matplotlib",
+            ]
+        },
     )

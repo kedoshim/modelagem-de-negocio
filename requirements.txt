@@ -3,3 +3,4 @@ yfinance
 PyDrive
 nest_asyncio
 matplotlib
+google-api-python-client
