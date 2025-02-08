@@ -13,6 +13,7 @@ from prefect.artifacts import (
     create_table_artifact,
 )
 from prefect.variables import Variable
+from prefect.logging import get_run_logger
 
 # Escopo para acessar o Google Drive
 SCOPES = ["https://www.googleapis.com/auth/drive.file"]
@@ -31,10 +32,18 @@ def authenticate_google_drive():
     Autentica o acesso ao Google Drive usando uma conta de serviço.
     Retorna o serviço do Google Drive para operações de API.
     """
+    logger = get_run_logger()
+
+    variable = Variable.set(name="the_answer", value="42")
+
+    # getting from a synchronous context
+    answer = Variable.get('the_answer')
+    print(answer.value)
+
     credentials_block = Variable.get("drive-credentials")
-    print(credentials_block.value)
+    logger.info(credentials_block.value)
     if not credentials_block:
-        raise ValueError(f"Bloco de credenciais do Google Drive não configurado.{credentials_block}")
+        raise ValueError(f"Bloco de credenciais do Google Drive não configurado.")
 
     credentials = Credentials.from_service_account_info(
         credentials_block.value, scopes=SCOPES
