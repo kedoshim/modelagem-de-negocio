@@ -31,8 +31,10 @@ def authenticate_google_drive():
     Autentica o acesso ao Google Drive usando uma conta de serviço.
     Retorna o serviço do Google Drive para operações de API.
     """
+    credentials_block = Variable.get("drive-credentials")
+    print(credentials_block.value)
     if not credentials_block:
-        raise ValueError("Bloco de credenciais do Google Drive não configurado.")
+        raise ValueError(f"Bloco de credenciais do Google Drive não configurado.{credentials_block}")
 
     credentials = Credentials.from_service_account_info(
         credentials_block.value, scopes=SCOPES
