@@ -24,6 +24,8 @@ TICKERS = (
 )  # Default caso não haja bloco configurado
 
 
+credentials_block = Variable.get("drive-credentials")
+
 def authenticate_google_drive():
     """
     Autentica o acesso ao Google Drive usando uma conta de serviço.
