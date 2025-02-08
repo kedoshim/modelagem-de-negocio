@@ -34,11 +34,9 @@ def authenticate_google_drive():
     """
     logger = get_run_logger()
 
-    variable = Variable.set(name="the_answer", value="42")
-
     # getting from a synchronous context
     answer = Variable.get('the_answer')
-    print(answer.value)
+    logger.debug(answer)
 
     credentials_block = Variable.get("drive-credentials")
     logger.info(credentials_block.value)
@@ -180,7 +178,7 @@ if __name__ == "__main__":
         source="https://github.com/kedoshim/modelagem-de-negocio.git",
         entrypoint="final.py:stock_workflow",
     ).deploy(
-        name="tvc2-worflow",
+        name="tvc2-workflow",
         cron="0 0 * * *",
         work_pool_name="TVC2",
         job_variables={
