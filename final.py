@@ -39,16 +39,12 @@ def authenticate_google_drive():
     logger.debug(answer)
 
     credentials_block = Variable.get("drive_credentials")
-    try:
-        logger.info(credentials_block)  
-        logger.info(credentials_block.value)
-    except:
-        pass
+    
     if not credentials_block:
         raise ValueError(f"Bloco de credenciais do Google Drive não configurado.")
 
     credentials = Credentials.from_service_account_info(
-        credentials_block.value, scopes=SCOPES
+        credentials_block, scopes=SCOPES
     )
     return build("drive", "v3", credentials=credentials)
 
