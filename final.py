@@ -133,10 +133,11 @@ def create_summary_table(data):
         close_price = row["Close"]
         previous_close = row["Open"] if row["Open"].item() > 0 else close_price
         daily_change = (
-            (close_price - previous_close) / previous_close * 100
-            if previous_close
+            ((close_price - previous_close) / previous_close * 100)
+            if previous_close != 0
             else 0
         )
+
         changes.append((ticker, daily_change))
 
     sorted_changes = sorted(changes, key=lambda x: x[1], reverse=True)
