@@ -134,7 +134,7 @@ def create_summary_table(data):
         previous_close = row["Open"] if row["Open"].item() > 0 else close_price
         daily_change = (
             ((close_price - previous_close) / previous_close * 100)
-            if not pd.isna(previous_close)
+            if previous_close.item()
             else 0
         )
 
