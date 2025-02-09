@@ -25,7 +25,7 @@ TICKERS = (
 )  # Default caso não haja bloco configurado
 
 
-credentials_block = Variable.get("drive-credentials")
+credentials_block = Variable.get("drive_credentials")
 
 def authenticate_google_drive():
     """
@@ -38,8 +38,12 @@ def authenticate_google_drive():
     answer = Variable.get('the_answer')
     logger.debug(answer)
 
-    credentials_block = Variable.get("drive-credentials")
-    logger.info(credentials_block.value)
+    credentials_block = Variable.get("drive_credentials")
+    try:
+        logger.info(credentials_block)  
+        logger.info(credentials_block.value)
+    except:
+        pass
     if not credentials_block:
         raise ValueError(f"Bloco de credenciais do Google Drive não configurado.")
 
@@ -178,7 +182,7 @@ if __name__ == "__main__":
         source="https://github.com/kedoshim/modelagem-de-negocio.git",
         entrypoint="final.py:stock_workflow",
     ).deploy(
-        name="tvc2-workflow",
+        name="tvc2-worflow",
         cron="0 0 * * *",
         work_pool_name="TVC2",
         job_variables={
@@ -190,6 +194,7 @@ if __name__ == "__main__":
                 "PyDrive",
                 "nest_asyncio",
                 "matplotlib",
+                "google-api-python-client"
             ]
         },
     )
