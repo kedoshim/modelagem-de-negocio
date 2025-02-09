@@ -131,7 +131,7 @@ def create_summary_table(data):
     changes = []
     for ticker, row in last_day_data.items():
         close_price = row["Close"]
-        previous_close = row["Open"] if row["Open"] > 0 else close_price
+        previous_close = row["Open"] if row["Open"].item() > 0 else close_price
         daily_change = (
             (close_price - previous_close) / previous_close * 100
             if previous_close
