@@ -129,18 +129,18 @@ def create_summary_table(data):
     last_day_data = {ticker: df.iloc[-1] for ticker, df in data.items() if not df.empty}
 
     changes = []
+    changes = []
     for ticker, row in last_day_data.items():
-        close_price = row["Close"]
-        previous_close = row["Open"] if row["Open"].item() > 0 else close_price
-        daily_change = (
-            ((close_price - previous_close) / previous_close * 100)
-            if previous_close.item()
-            else 0
-        )
+        close_price = row["Close"].item() if isinstance(row["Close"], pd.Series) else row["Close"]
+        open_price = row["Open"].item() if isinstance(row["Open"], pd.Series) else row["Open"]
+
+        previous_close = open_price if open_price > 0 else close_price
+        daily_change = ((close_price - previous_close) / previous_close * 100) if previous_close.item() else 0
 
         changes.append((ticker, daily_change))
 
     sorted_changes = sorted(changes, key=lambda x: x[1], reverse=True)
+
     top_risers = sorted_changes[:3]
     top_fallers = sorted_changes[-3:]
 
