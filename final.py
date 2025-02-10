@@ -150,7 +150,7 @@ def create_summary_table(data):
         table_data["Daily Change (%)"].append(change)
 
     create_table_artifact(
-        key="daily_stock_summary",
+        key="daily-stock-summary",
         table=table_data,
         description="Top 3 Risers and Fallers",
     )
