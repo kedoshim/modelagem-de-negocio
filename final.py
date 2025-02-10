@@ -135,7 +135,7 @@ def create_summary_table(data):
         open_price = row["Open"].item() if isinstance(row["Open"], pd.Series) else row["Open"]
 
         previous_close = open_price if open_price > 0 else close_price
-        daily_change = ((close_price - previous_close) / previous_close * 100) if previous_close.item() else 0
+        daily_change = ((close_price - previous_close) / previous_close * 100) if previous_close else 0
 
         changes.append((ticker, daily_change))
 
